@@ -1,0 +1,34 @@
+[options]
+clickable_url		= true
+search_wrap		= true
+font			= Source Code Pro Semibold
+
+[colors]
+foreground		= #ffffff
+foreground_bold 	= #00ffff
+cursor          	= #dddddd
+cursor_foreground	= #ffffff
+background = rgba(60,20,50,0.65)
+color0 = #322B24
+color8 = #654
+color7 = #A6717C
+color15 = #FFEBEF
+color1 = #00F27A
+color9 = #63FEB1
+color2 = #379BFF
+color10 = #6FB7FF
+color3 = #C553FF
+color11 = #D581FF
+color4 = #FFE500
+color12 = #FFEF5E
+color5 = #00EEEE
+color13 = #70FFFF
+color6 = #FF4D82
+color14 = #FF6E9A
+# Extra colors
+color16 = #aaaaaa
+color17 = #444444
+color18 = #121212
+color19 = #222222
+color20 = #999999
+color21 = #999999

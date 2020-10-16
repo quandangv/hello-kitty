@@ -1,0 +1,550 @@
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+;;
+;;	    ____        __      __              
+;;	   / __ \____  / /_  __/ /_  ____ ______
+;;	  / /_/ / __ \/ / / / / __ \/ __ `/ ___/
+;;	 / ____/ /_/ / / /_/ / /_/ / /_/ / /    
+;;	/_/    \____/_/\__, /_.___/\__,_/_/     
+;;	              /____/                    
+;;
+;;
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+include-file = ~/.config/polybar/pink.scheme.ini
+
+;; Global WM Settings
+
+[global/wm]
+margin-bottom = 0
+
+margin-top = 0
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+;; Bar Settings
+
+[bar/main]
+monitor =
+
+monitor-fallback =
+
+monitor-strict = false
+
+override-redirect = false
+
+bottom = false
+
+fixed-center = true
+
+width = 100%
+height = 40
+
+offset-x = 0%
+offset-y = 0%
+
+background = ${color.alpha}
+
+radius-top = 0.0
+radius-bottom = 0.0
+
+border-top-size = 10
+border-bottom-size = 10
+border-color = #00000000
+
+padding = 0
+
+module-margin-left = 0
+module-margin-right = 0
+
+font-0 = Iosevka Nerd Font:style=Medium:size=14;4
+font-1 = ${color.font}
+font-2 = Iosevka Nerd Font:style=Medium:size=30;7
+; font-2 = Iosevka Nerd Font:style=Medium:size=50;-10
+
+separator =
+
+space-unit = " "
+
+dim-value = 1.0
+
+wm-name = 
+
+locale = 
+
+tray-position = none
+
+tray-detached = false
+
+tray-maxsize = 0
+
+tray-background = ${root.background}
+
+tray-offset-x = 0
+tray-offset-y = 0
+
+tray-padding = 0
+
+tray-scale = 1.0
+
+enable-ipc = true
+
+click-left = 
+click-middle = 
+click-right =
+scroll-up =
+scroll-down =
+double-click-left =
+double-click-middle =
+double-click-right =
+
+cursor-click = 
+cursor-scroll = 
+
+modules-left = launcher timer reload launcherright taskwarrior network alsa rightedge
+modules-center = leftedge workspaces rightedge
+modules-right = leftedge cpu memory temp0 battery filesystem date powerleft suspend hibernate
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+;; Application Settings
+
+[settings]
+throttle-output = 5
+throttle-output-for = 10
+
+screenchange-reload = false
+
+format-foreground = 
+format-background = 
+format-underline =
+format-overline =
+format-spacing =
+format-padding =
+format-margin =
+format-offset =
+
+; Enables pseudo-transparency for the bar
+; If set to true the bar can be transparent without a compositor.
+pseudo-transparency = false
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+;;
+;;	    __  ___          __      __         
+;;	   /  |/  /___  ____/ /_  __/ /__  _____
+;;	  / /|_/ / __ \/ __  / / / / / _ \/ ___/
+;;	 / /  / / /_/ / /_/ / /_/ / /  __(__  ) 
+;;	/_/  /_/\____/\__,_/\__,_/_/\___/____/  
+;;
+;;
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+[module/powerleft]
+type = custom/text
+content = ""
+content-font = 3
+content-foreground = ${color.power-bg}
+content-background = ${color.bg}
+
+[module/launcherright]
+type = custom/text
+content = ""
+content-font = 3
+content-foreground = ${color.launcher-bg}
+content-background = ${color.bg}
+
+[module/rightedge]
+type = custom/text
+content = " "
+content-font = 3
+content-foreground = ${color.bg}
+
+[module/leftedge]
+type = custom/text
+content = " "
+content-font = 3
+content-foreground = ${color.bg}
+
+[module/reload]
+type = custom/text
+content = ""
+content-background = ${color.launcher-bg}
+content-foreground = ${color.fg-alt}
+content-padding = 1
+click-left = ~/apps/polybar.sh &
+
+[module/suspend]
+type = custom/script
+exec = ~/.config/polybar/scripts/prompted-action.sh "" " Click to suspend" "systemctl suspend"
+tail = true
+format = <label>
+format-foreground = ${color.fg-alt}
+format-background = ${color.power-bg}
+format-padding = 1
+label= "%output%"
+click-left = kill -USR1 %pid%
+
+[module/hibernate]
+inherit = module/suspend
+exec = ~/.config/polybar/scripts/prompted-action.sh "" " Click to hibernate" "systemctl hibernate"
+format-padding-right = 2
+
+[module/timer]
+type = custom/script
+format = <label>
+format-background = ${color.launcher-bg}
+format-foreground = ${color.fg-alt}
+tail=true
+label = %output%
+label-padding = 1
+exec = ~/.config/polybar/scripts/timer.sh
+click-left = "kill -USR1 %pid%"
+click-right = "kill -USR2 %pid%"
+
+[module/taskwarrior]
+type = custom/script
+exec = ~/.config/polybar/scripts/task.sh
+tail = true
+format = <label>
+format-foreground = ${color.task-fg}
+format-background = ${color.bg}
+format-padding = 1
+label= " %output%"
+click-right = kill -USR2 %pid%
+click-left = kill -USR1 %pid%
+
+[module/temp0]
+type = internal/temperature
+thermal-zone = 0
+base-temperature = 40
+warn-temperature = 80
+
+format = <ramp><label>
+format-warn = <ramp><label-warn>
+
+label = "%temperature-c%"
+label-foreground = ${color.temp-fg}
+label-background = ${color.bg}
+label-padding= 1
+
+label-warn = "%temperature-c%"
+label-warn-foreground = ${color.fg}
+label-warn-background = ${color.temp-bg}
+label-warn-padding = 2
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-3 = 
+ramp-4 = 
+ramp-5 = 
+ramp-6 = 
+ramp-padding-left = 1
+ramp-foreground = ${color.temp-fg}
+ramp-background = ${color.bg}
+ramp-6-foreground = ${color.fg}
+ramp-6-background = ${color.temp-bg}
+
+[module/temp1]
+inherit = module/temp0
+thermal-zone = 1
+
+[module/temp2]
+inherit = module/temp1
+thermal-zone = 2
+
+[module/temp3]
+inherit = module/temp1
+thermal-zone = 3
+
+[module/temp4]
+inherit = module/temp1
+thermal-zone = 4
+
+[module/temp5]
+inherit = module/temp1
+thermal-zone = 5
+
+[module/filesystem]
+type = internal/fs
+
+mount-0 = /
+fixed-value = true
+warn-used-percentage = 90
+
+format = <label>
+format-mounted-background = ${color.bg}
+format-mounted-foreground = ${color.fs-fg}
+format-mounted-padding = 1
+label-mounted =  %free%
+
+format-unmounted = <label-unmounted>
+format-unmounted-background = ${color.fs-bg}
+format-unmounted-foreground = ${color.fg}
+format-unmounted-padding = 1
+label-unmounted =  unmounted
+
+format-warn = <label-warn>
+format-warn-background = ${color.fs-bg}
+format-warn-foreground = ${color.fg}
+format-warn-padding = 2
+label-warn =  %free% left
+
+[module/alsa]
+type = internal/alsa
+
+format-volume = <ramp-volume> <label-volume>
+format-volume-background = ${color.bg}
+format-volume-foreground = ${color.volume-fg}
+format-volume-padding = 1
+
+label-volume = %percentage%%
+
+format-muted-background = ${color.volume-bg}
+format-muted-foreground = ${color.fg}
+format-muted-padding = 1
+label-muted = ""
+
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+ramp-volume-3 = 
+ramp-volume-4 = 
+ramp-volume-5 = 
+ramp-headphones-0 = 
+ramp-headphones-1 = 
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+[module/battery]
+type = internal/battery
+battery = BAT1
+adapter = ADP1
+full-at = 95
+low-at = 20
+time-format = %M
+
+format-charging = <animation-charging>
+format-charging-background = ${color.bg}
+format-charging-foreground = ${color.battery-fg}
+format-charging-padding = 1
+
+format-discharging = <ramp-capacity>
+format-discharging-background = ${color.battery-bg}
+format-discharging-foreground = ${color.fg}
+format-discharging-padding = 1
+
+format-full = <label-full>
+format-full-background = ${color.bg}
+format-full-foreground = ${color.battery-fg}
+format-full-padding = 1
+
+format-low = <animation-low>
+format-low-background = ${color.battery-bg}
+format-low-foreground = ${color.fg}
+
+label-charging = %percentage%%
+label-discharging = %percentage%% %time%
+label-full =  %percentage%% 
+
+ramp-capacity = %label% %percentage%%
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+ramp-capacity-5 = 
+ramp-capacity-6 = 
+ramp-capacity-7 = 
+ramp-capacity-8 = 
+ramp-capacity-9 = 
+
+animation-charging = %label% %percentage%%
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+animation-charging-5 = 
+animation-charging-6 = 
+
+animation-low = %label% %time% MINUTES LEFT
+animation-low-padding = 2
+animation-low-0 = 
+animation-low-0-foreground = ${color.fg}
+animation-low-0-background = ${color.battery-bg}
+animation-low-1 = 
+animation-low-1-foreground = ${color.battery-fg}
+animation-low-1-background = ${color.bg}
+animation-low-framerate = 700
+
+; Framerate in milliseconds
+animation-charging-framerate = 500
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+[module/cpu]
+type = internal/cpu
+
+interval = 1
+warn-percentage = 80
+
+format = <label>
+format-prefix = 
+format-background = ${color.bg}
+format-foreground = ${color.cpu-fg}
+format-padding= 1
+label =  %percentage%%
+
+format-warn = <animation-warn>
+format-warn-background = ${color.cpu-bg}
+format-warn-foreground = ${color.fg}
+label-warn =  %percentage%%
+animation-warn = %label% %percentage%%
+animation-warn-padding = 2
+animation-warn-1 = 
+animation-warn-1-background = ${color.cpu-bg}
+animation-warn-1-foreground = ${color.fg}
+animation-warn-0 = 
+animation-warn-0-background = ${color.bg}
+animation-warn-0-foreground = ${color.cpu-fg}
+
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+[module/date]
+type = internal/date
+
+interval = 1.0
+
+time =  %I:%M %p
+time-alt =  %Y-%m-%d%
+
+format = <label>
+format-background = ${color.bg}
+format-foreground = ${color.date-fg}
+format-padding = 1
+
+label = %time%
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+[module/memory]
+type = internal/memory
+
+interval = 3
+warn-percentage = 90
+
+format = <label>
+label-background = ${color.bg}
+label-foreground = ${color.ram-fg}
+label-padding = 1
+label = " %percentage_used%%"
+
+format-warn = <label-warn>
+label-warn-background = ${color.ram-bg}
+label-warn-foreground = ${color.fg}
+label-warn-padding = 1
+label-warn = ${module/memory.label}
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+[module/mpd]
+type = internal/mpd
+
+interval = 2
+
+format-online = <label-song>
+format-online-background = ${color.bg}
+format-online-foreground = ${color.fg}
+format-online-padding = 2
+
+label-song =  "%artist% - %title%"
+label-song-maxlen = 30
+label-song-ellipsis = true
+
+label-offline = "MPD is offline"
+
+[module/mpd_i]
+type = internal/mpd
+
+interval = 2
+
+format-online = <icon-prev> <toggle> <icon-next>
+format-online-background = ${color.cpu-bg}
+format-online-foreground = ${color.fg}
+format-online-padding = 2
+
+label-offline = "MPD is offline"
+
+; Only applies if <icon-X> is used
+icon-play = 
+icon-pause = 
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+[module/network]
+type = internal/network
+interface = wlan0
+
+interval = 1.0
+accumulate-stats = true
+unknown-as-up = true
+
+format-connected = <label-connected>
+format-connected-background = ${color.bg}
+format-connected-foreground = ${color.network-fg}
+format-connected-padding = 1
+
+format-disconnected = <label-disconnected>
+format-disconnected-background = ${color.network-bg}
+format-disconnected-foreground = ${color.fg}
+format-disconnected-padding = 1
+
+label-connected = 直
+label-disconnected = 睊
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+[module/workspaces]
+type = internal/bspwm
+
+pin-workspaces = false
+
+enable-click = true
+enable-scroll = false
+
+format-foreground = ${color.workspace-fg}
+format = <label-state>
+
+label-focused-foreground = ${color.fg}
+label-focused-background = ${color.workspace-bg}
+label-focused-padding = 1
+
+label-occupied-foreground = ${color.workspace-fg}
+label-occupied-background = ${color.bg}
+label-occupied-padding = 1
+
+label-urgent-foreground = ${color.fg}
+label-urgent-background = ${color.emergency-shade}
+label-urgent-padding = 1
+
+label-empty-foreground = ${color.workspace-fg}
+label-empty-background = ${color.bg}
+label-empty-padding = 1
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+[module/sep]
+type = custom/text
+content = "|"
+
+content-background = ${color.alpha}
+content-foreground = ${color.alpha}
+content-padding = 0
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+[module/launcher]
+type = custom/text
+content = ""
+content-background = ${color.launcher-bg}
+content-foreground = ${color.fg-alt}
+content-padding = 1
