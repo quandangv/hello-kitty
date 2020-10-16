@@ -3,20 +3,20 @@
 #
 
 # screenshot
-super + {_,shift + }p
-	import {-window root,_} ~/screenshot.png
+# super + {_,shift + }p
+# 	import {-window root,_} ~/screenshot.png
 
 # pick a color
-super + c
-  xcolor >> ~/picked-colors
+# super + c
+#   xcolor >> ~/picked-colors
 
 # toggle polybar
 super + b
 	polybar-msg cmd toggle
 
 # change to random wallpaper
-super + r
- 	~/wallpapers/random-setter
+# super + r
+#  	~/wallpapers/random-setter
 
 # move node to desktop number 10 and back
 super + {_,shift + }h
@@ -33,15 +33,14 @@ super + {_,shift + }h
 # volume control
 {XF86AudioRaiseVolume,XF86AudioLowerVolume,XF86AudioMute}
 	amixer sset Master {5%+,5%-,toggle}
-super + u
-        ~/.config/bspwm/scratchpad.sh dropdown
+
 # terminal emulator
 super + Return
 	termite
 
 # program launcher
 super + @space
-	~/.dmenu_run
+	~/.config/dmenu.sh
 
 # make sxhkd reload its configuration files:
 super + Escape
