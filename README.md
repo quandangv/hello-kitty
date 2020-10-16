@@ -4,7 +4,7 @@ A cute theme for Arch Linux
 
 ## Dependencies
 This theme is created in a system with these packages installed:
-* Window manager: bspwm
+* Window manager: bspwm-rounded-corners
 * Terminal: termite
 * Compositor: picom
 * Keyboard shortcuts: sxhkd
