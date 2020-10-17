@@ -1,5 +1,6 @@
 # hello-kitty
 A cute theme for Arch Linux
+
 ![screenshot](screenshot.png)
 
 ## Dependencies
